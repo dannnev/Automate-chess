@@ -137,14 +137,14 @@ void drawcheck (std::string a)
 void stockfish()
 {
     fen = generateFEN(board,side,halfmove,fullmove);
-    std::ofstream fentxt ("/home/danylo/Desktop/Code/chess/fen.txt", std::ios::trunc);
+    std::ofstream fentxt ("./fen.txt", std::ios::trunc);
     fentxt << fen;
     fentxt.close();
-    if (fullmove<15) system("/home/danylo/Desktop/Code/chess/hardthink.sh");
-    if (14<fullmove && fullmove<30) system("/home/danylo/Desktop/Code/chess/middlethink.sh");
-    if (29<fullmove) system("/home/danylo/Desktop/Code/chess/easythink.sh");
-    system("/home/danylo/Desktop/Code/chess/sponge.sh");
-    std::fstream filemoves ("/home/danylo/Desktop/Code/chess/script.txt");
+    if (fullmove<15) system("./hardthink.sh");
+    if (14<fullmove && fullmove<30) system("./middlethink.sh");
+    if (29<fullmove) system("./easythink.sh");
+    system("./sponge.sh");
+    std::fstream filemoves ("./script.txt");
     filemoves >> themove;
     filemoves.close();
     if (themove[0] == '(') {fish=0; end=1;}
@@ -220,16 +220,16 @@ int main()
    // Textures are the "sources" for Sprite class. Only 3 textures are set - one for background, one for pieces, one for green squares
    // By switching the files that a texture t2 is loaded from, the different background appears.
    Texture t1,t2,t3,t4;
-   t1.loadFromFile("/home/danylo/Desktop/Code/images/figures.png"); // figures texture
-   t2.loadFromFile("/home/danylo/Desktop/Code/images/starter.png"); // starter page
-   t3.loadFromFile("/home/danylo/Desktop/Code/images/greensquare.png"); // green squares represent allowed to drag figures
-   t4.loadFromFile("/home/danylo/Desktop/Code/images/yellowsquare.png"); // yellow squares for the previous move
+   t1.loadFromFile("../images/figures.png"); // figures texture
+   t2.loadFromFile("../images/starter.png"); // starter page
+   t3.loadFromFile("../images/greensquare.png"); // green squares represent allowed to drag figures
+   t4.loadFromFile("../images/yellowsquare.png"); // yellow squares for the previous move
 
    Sprite mainframe(t2); // mainframe is of class Sprite, hence it is now drawable
 
    // Set font for text
    Font actionman;
-   actionman.loadFromFile("/home/danylo/Desktop/Code/fonts/actionman.ttf");
+   actionman.loadFromFile("../fonts/actionman.ttf");
 
    // points to spend on pieces
    int amoB=35, amoW=35;
@@ -316,16 +316,16 @@ int main()
             if (e.type == Event::KeyPressed)
                 if(e.key.code == Keyboard::R)
                     if (r)
-                        {t2.loadFromFile("/home/danylo/Desktop/Code/images/rules.png"); //change the texture of the mainframe to the prepared rules.png
+                        {t2.loadFromFile("../images/rules.png"); //change the texture of the mainframe to the prepared rules.png
                          r=false;
                          fix = false; // prevents entering the game from the rules window
                         }
                     else
                         {
                             if (!enter)
-                                t2.loadFromFile("/home/danylo/Desktop/Code/images/board.png"); // if enter was already used we move in between game and rules
+                                t2.loadFromFile("../images/board.png"); // if enter was already used we move in between game and rules
                             else
-                                t2.loadFromFile("/home/danylo/Desktop/Code/images/starter.png"); // if enter was not yet used we move in between game and starter window
+                                t2.loadFromFile("../images/starter.png"); // if enter was not yet used we move in between game and starter window
                             r=true;
                             fix = true; // allows entering the game
                         }
@@ -335,7 +335,7 @@ int main()
                 if(e.key.code == Keyboard::Enter)
                     if (enter && fix)
                         {
-                            t2.loadFromFile("/home/danylo/Desktop/Code/images/board.png"); // load board
+                            t2.loadFromFile("../images/board.png"); // load board
                             for (int i=0; i<12; i++) f[i].setTexture(t1); // finally set f[i] as texture t1
                             enter = false;
                         }
@@ -494,6 +494,8 @@ int main()
                             fallblack=0;
                             hor1=0;
                             hor2=0;
+                            blpawns=0;
+                            whpawns=0;
                             turn=true;
                             side = !side;
                             permission[5]=true;
